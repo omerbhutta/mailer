@@ -19,7 +19,7 @@ try {
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
     $mail->Port = 587;
     $mail->Username = 'noreply@jeevaysoft.com'; // SMTP username
-    $mail->Password = 'MySpMpTLogEmSofJee@4$5#11!'; // SMTP password
+    $mail->Password = 'Xuh97233!'; // SMTP password
     $mail->setFrom('noreply@jeevaysoft.com', 'NoReply Jeevaysoft');
     $mail->AddAddress('iamomerbhutta@gmail.com');
     // Content

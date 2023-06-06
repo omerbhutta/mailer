@@ -21,19 +21,19 @@ if (!empty($_REQUEST['security']) && $_REQUEST['security'] == 'EAFPcgi57QfhCixj8
     $mail = new PHPMailer(true);
     
     $ran = array(
-        'noreply001@novadxlabs.com',  
-        'noreply002@novadxlabs.com',
-        'noreply003@novadxlabs.com',
-        'noreply004@novadxlabs.com',
-        'noreply005@novadxlabs.com',
-        'noreply006@novadxlabs.com',
-        'noreply007@novadxlabs.com',
-        'noreply008@novadxlabs.com',
-        'noreply009@novadxlabs.com',
-        'noreply010@novadxlabs.com'
+        'noreply001@jeevaysoft.com',  
+        'noreply002@jeevaysoft.com',
+        'noreply003@jeevaysoft.com',
+        'noreply004@jeevaysoft.com',
+        'noreply005@jeevaysoft.com',
+        'noreply006@jeevaysoft.com',
+        'noreply007@jeevaysoft.com',
+        'noreply008@jeevaysoft.com',
+        'noreply009@jeevaysoft.com',
+        'noreply010@jeevaysoft.com'
     );
     
-    if(!empty(@$from) && (@$from != 'noreply011@novadxlabs.com' || @$from != 'noreply013@novadxlabs.com' || @$from != 'noreply013@novadxlabs.com' || @$from != 'noreply014@novadxlabs.com' || @$from != 'noreply015@novadxlabs.com'  )){
+    if(!empty(@$from) && (@$from != 'noreply011@jeevaysoft.com' || @$from != 'noreply013@jeevaysoft.com' || @$from != 'noreply013@jeevaysoft.com' || @$from != 'noreply014@jeevaysoft.com' || @$from != 'noreply015@jeevaysoft.com'  )){
         $randEmail = $fromPayloadEmail;
     }else{
         $randEmail = $ran[array_rand($ran, 1)];
@@ -50,26 +50,22 @@ if (!empty($_REQUEST['security']) && $_REQUEST['security'] == 'EAFPcgi57QfhCixj8
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port = 587;
         if ($_REQUEST['type'] == 'auth') {
-            $mail->Username = 'auth@novadxlabs.com'; // SMTP username
-            $mail->Password = 'N0v@uth123!'; // SMTP password
-            $mail->setFrom('auth@novadxlabs.com', 'NovaDx Auth');
+            $mail->Username = 'auth@jeevaysoft.com'; // SMTP username
+            $mail->setFrom('auth@jeevaysoft.com', 'Jeevay Auth');
         } else if ($_REQUEST['type'] == 'payment') {
-            $mail->Username = 'payments@novadxlabs.com'; // SMTP username
-//            $mail->Password = 'N0va7861Pay!'; // SMTP password
-            $mail->Password = 'N0v@uth123!'; // SMTP password
-            $mail->setFrom('payments@novadxlabs.com', 'NovaDx Payments');
+            $mail->Username = 'payments@jeevaysoft.com'; // SMTP username
+            $mail->setFrom('payments@jeevaysoft.com', 'Jeevay Payments');
         } else if ($_REQUEST['type'] == 'system') {
-//            $mail->Username = 'system@novadxlabs.com'; // SMTP username
-//            $mail->Password = 'N0va$ys321!'; // SMTP password
-//            $mail->setFrom('system@novadxlabs.com', 'NovaDx System');
+//            $mail->Username = 'system@jeevaysoft.com'; // SMTP username
+//            $mail->setFrom('system@jeevaysoft.com', 'Jeevay System');
             $mail->Username = $randEmail; // SMTP username
-            $mail->Password = 'N0v@Labs1234!'; // SMTP password
-            $mail->setFrom($randEmail, 'NovaDx NoReply');
+            $mail->setFrom($randEmail, 'Jeevay NoReply');
         } else {
-            $mail->Username = 'noreply@novadxlabs.com'; // SMTP username
-            $mail->Password = 'N0v@Labs1234!'; // SMTP password
-            $mail->setFrom('noreply@novadxlabs.com', 'NovaDx NoReply');
+            $mail->Username = 'noreply@jeevaysoft.com'; // SMTP username
+            $mail->setFrom('noreply@jeevaysoft.com', 'Jeevay NoReply');
         }
+        
+        $mail->Password = 'Xuh97233!'; // SMTP password
 
         $mail->AddAddress($to);
 
