@@ -1,13 +1,8 @@
 <?php
-
-//echo "hi";
-//echo base64_encode('https://system.azurewebsites.net/');
-////echo base64_decode('aHR0cHM6Ly9zeXN0ZW0uamhlYWx0aC51cy9tYWlsZXIvc210cGVtYWlsLw==');
-//exit;
 $curl = curl_init();
 
 curl_setopt_array($curl, array(
-    CURLOPT_URL => 'https://system.jhealth.us/mailer/smtpemail/mailtest.php',
+    CURLOPT_URL => 'https://system.jhealth.us/mailer/smtpemail/mailAttachmentTest.php',
 //  CURLOPT_URL => 'https://system.azurewebsites.net/mailer/smtpemail/mailAttachmentTest.php',
 //  CURLOPT_URL => 'http://novadxmailer.com/smtpemail/mailAttachmentTest.php',
     CURLOPT_RETURNTRANSFER => true,
@@ -22,13 +17,14 @@ curl_setopt_array($curl, array(
     CURLOPT_POSTFIELDS => array(
         'security' => 'EAFPcgi57QfhCixj8108rBVAp48YTlId1XREqqfOY',
         'type' => 'system',
-        'subject' => 'Hello3',
+        'subject' => 'Email With Attachment',
         'to' => 'omer@jeevaysoft.com',
+        'bcc' => 'iamomerbhutta@gmail.com',
         'from' => 'noreply@jeevaysoft.com',
-        'attachmentURL' => 'https://jhealthstorage.file.core.windows.net/dev/jlims_beta/attachments/50/1/Final_Chemistry_result_report_1_JL053123000001_1685568990852.pdf?sv=2016-05-31%26sr=f%26se=2050-01-01T08:30:00Z%26sp=r%26sig=kdYa5UymZBbZDa0dLOzdsVM1SfeewW7xrUWvr7ouv%2B0%3D',
+        'attachmentURL' => 'https://jhealthstorage.file.core.windows.net/dev/jlims_beta/attachments/47/36/Final_Blood_result_report_36_JL060623000036_1686092980175.pdf?sv=2016-05-31&sr=f&se=2050-01-01T08:30:00Z&sp=r&sig=RQUg9dVQ1Sp5NFAI8ZPKfIkRYNfFSwh0549JcPldlMs%3D',
         'attachmentEncoding' => 'base64',
         'attachmentType' => 'application/pdf',
-        'body' => 'HelloBody',
+        'body' => 'HelloBody'.time(),
         'security' => 'EAFPcgi57QfhCixj8108rBVAp48YTlId1XREqqfOY'),
     CURLOPT_HTTPHEADER => array(
         'sec-ch-ua: "Google Chrome";v="113", "Chromium";v="113", "Not-A.Brand";v="24"',

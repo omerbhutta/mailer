@@ -4,33 +4,26 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
-if (!empty($_REQUEST['security']) && $_REQUEST['security'] == 'EAFPcgi57QfhCixj8108rBVAp48YTlId1XREqqfOY') {
-    $subject = $_REQUEST['subject'];
-    $bccr = $_REQUEST['bcc'];
-    $to = $_REQUEST['to'];
-    $body = $_REQUEST['body'];
-    $from = $_REQUEST['from'];
-    $attachmentURL = $_REQUEST['attachmentURL'];
-    $attachmentEncoding = $_REQUEST['attachmentEncoding'];
-    $attachmentType = $_REQUEST['attachmentType'];
+require_once 'vendor/phpmailer/Exception.php';
+require_once 'vendor/phpmailer/PHPMailer.php';
+require_once 'vendor/phpmailer/SMTP.php';
 
+$mail = new PHPMailer(true);
 
-
-
-
+if (!empty(@$_REQUEST['security']) && @$_REQUEST['security'] == 'EAFPcgi57QfhCixj8108rBVAp48YTlId1XREqqfOY') {
+    $subject = @$_REQUEST['subject'];
+    $bccr = @$_REQUEST['bcc'];
+    $to = @$_REQUEST['to'];
+    $body = @$_REQUEST['body'];
+    $from = @$_REQUEST['from'];
+    $attachmentURL = @$_REQUEST['attachmentURL'];
+    $attachmentEncoding = @$_REQUEST['attachmentEncoding'];
+    $attachmentType = @$_REQUEST['attachmentType'];
     $bccarray = explode(',', $bccr);
-
-    require_once 'vendor/phpmailer/Exception.php';
-    require_once 'vendor/phpmailer/PHPMailer.php';
-    require_once 'vendor/phpmailer/SMTP.php';
+    $localPath = '';
 
     // passing true in constructor enables exceptions in PHPMailer
     $mail = new PHPMailer(true);
-
-    $ran = array(
-        'noreply@jeevaysoft.com'
-    );
-    $randEmail = $ran[array_rand($ran, 1)];
 
     try {
         // Server settings
@@ -39,16 +32,16 @@ if (!empty($_REQUEST['security']) && $_REQUEST['security'] == 'EAFPcgi57QfhCixj8
         $mail->Host = 'smtp.office365.com';
         $mail->SMTPAuth = true;
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        if(!empty($from)){
+        $mail->Port = 587;
+        if (!empty($from)) {
             $mail->Username = $from; // SMTP username
             $mail->setFrom($from, 'NoReply');
-        }else{
+        } else {
             $mail->Username = 'noreply@jeevaysoft.com'; // SMTP username
             $mail->setFrom('noreply@jeevaysoft.com', 'NoReply Jeevaysoft');
         }
         $mail->Password = 'Xuh97233!'; // SMTP password
         $mail->AddAddress($to);
-
         if (!empty($bccarray)) {
             foreach ($bccarray as $bcc) {
                 if (!empty($bcc)) {
@@ -61,30 +54,21 @@ if (!empty($_REQUEST['security']) && $_REQUEST['security'] == 'EAFPcgi57QfhCixj8
         $mail->IsHTML(true);
         $mail->Subject = $subject;
         $mail->Body = $body;
-        // $mail->AltBody = 'Plain text message body for non-HTML email client. Gmail SMTP email body.';
-
-        if(!empty($attachmentURL)){
-        
-            // Initialize a file URL to the variable
-            $url =   $attachmentURL;
-              
-            // Use basename() function to return the base name of file
-            $file_name = basename($url);
-              
-            // Use file_get_contents() function to get the file
-            // from url and use file_put_contents() function to
-            // save the file by using base name
-                if (file_put_contents(__DIR__ ."/attachments/".$file_name.".pdf", file_get_contents($url)))
-                {
-                    $mail->addAttachment(__DIR__ ."/attachments/".$file_name.".pdf", $file_name.'.pdf',$attachmentEncoding,$attachmentType);    //Optional name 
-                }
+        if (!empty(@$_REQUEST['attachmentURL'])) {
+            $attachmentURL = @$_REQUEST['attachmentURL'];
+            $url = $attachmentURL;
+            $file_name = parse_url($url, PHP_URL_PATH);
+            $file_name = explode('/', parse_url($file_name, PHP_URL_PATH));
+            $file_name = end($file_name);
+            if (file_put_contents(__DIR__ . "/attachments/" . $file_name, file_get_contents($url))) {
+                $localPath = __DIR__ . "/attachments/" . $file_name;
+                $mail->addAttachment($localPath, $file_name);
             }
-
+        }
         $mail->send();
-
+        unlink($localPath);
         $message['status'] = true;
         $message['message'] = 'Mail delivered.';
-
         echo json_encode($message);
     } catch (Exception $e) {
         $message['status'] = false;
@@ -96,6 +80,3 @@ if (!empty($_REQUEST['security']) && $_REQUEST['security'] == 'EAFPcgi57QfhCixj8
     $message['message'] = 'Bad request';
     echo json_encode($message);
 }
-
-// https://jhealth.jeevaysoft.com/cronJobs/sendPendingPatientEmails
-// https://jhealth.jeevaysoft.com/cronJobs/sendPendingOrdersEmails 
