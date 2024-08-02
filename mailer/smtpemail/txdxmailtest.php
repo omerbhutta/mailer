@@ -18,18 +18,16 @@ try {
     $mail->SMTPAuth = true;
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
     $mail->Port = 587;
-    $mail->Username = 'no-reply@novalabnetics.com'; // SMTP username
+    $mail->Username = 'noreply@txdxlabs.com'; // SMTP username
     $mail->Password = 'Xuh97233!'; // SMTP password
-    $mail->setFrom('no-reply@novalabnetics.com');
+    $mail->setFrom('noreply@txdxlabs.com');
     $mail->AddAddress('iamomerbhutta@gmail.com');
     // Content
     $mail->isHTML(true); // Set email format to HTML
     $mail->Subject = 'New Query';
     $mail->Body = 'hello';
 
-    if($subject != 'Abnormal Report Alert'){
     $mail->send();
-}
 } catch (Exception $e) {
     echo $errors = "SMTP: Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
 }
